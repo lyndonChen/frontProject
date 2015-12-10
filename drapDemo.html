@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>店铺布局</title>
+    <style type="text/css">
+
+        .list_module{
+            width: 60px;
+            height: 60px;
+            cursor: move;;
+        }
+
+        .content{
+            width: 844px;
+            margin: auto;
+            overflow: hidden;
+            height: auto;
+        }
+        .content .layout-unit{
+            overflow: hidden;
+            position: relative;
+            width: 730px!important;
+            padding: 9px 9px 4px;
+            border: 1px solid #e5e5e5;
+            margin-bottom: 10px;
+        }
+        .content .layout-unit .module{
+            background-color: antiquewhite;
+            line-height: 35px;
+            margin-bottom: 5px;;
+        }
+
+        .content  .main-unit{
+            width: 100%;
+            float: left;
+        }
+
+        .content  .sub-wrap{
+            float: left;
+        }
+
+        .content .bs .sub-wrap{
+            width: 160px;
+            margin-left: -160px;
+        }
+
+        .content .bs .main-wrap{
+            width: auto;
+            margin-right: 165px;
+        }
+
+        .content .sb .sub-wrap{
+            width: 160px;
+            margin-left: -730px;
+        }
+
+        .content .sb .main-wrap{
+            width: auto;
+            margin-left: 165px;
+        }
+
+        .placeholder{
+            border: 1px dashed #f5e7ce;
+            height: 35px;
+        }
+
+
+    </style>
+
+    <script src="assests/jquery-ui-1.11.4/external/jquery/jquery.js"></script>
+    <script  src="assests/jquery-ui-1.11.4/jquery-ui.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var mouseTop = 0;
+            var containerTop = null;
+            var container  =null;
+            $(".list_module").draggable({
+                connectToSortable:".main-wrap",
+                revert:true,
+                helper:function(ev){
+                    var proxy = "<div style='z-index:2000000;position: absolute;opacity: 0.2;width: 60px;height: 60px;border: 1px solid gray;top:"+(ev.pageY +15)+"px;left:"+(ev.pageX +15)+"px'>";
+                    proxy +="<p style='text-align: center'>"+$(this).find("span").text()+"</p>";
+                    proxy +="</div>";
+                    return proxy;
+                },
+                drag:function(ev,ui){
+                    mouseTop = ev.pageX;
+                    if(containerTop){
+                        var topHegiht = mouseTop-containerTop;
+
+                        if(topHegiht<=0){
+
+                        }
+                        var n = topHegiht/40;
+                    }
+
+                }
+            });
+
+            $('.main-wrap').droppable({
+                over:function(ev,ui){
+                    containerTop = $(this).offset().top;
+                    console.log($(this).offset().left);
+                    container = $(this);
+                },
+                out:function(){
+                    containerTop = null;
+                },
+                drop:function(){
+
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="left" style="width: 100px;float: left;">
+    <ul style="list-style: none;">
+        <li class="list_module">导航</li>
+        <li class="list_module">菜单</li>
+        <li class="list_module">自定义</li>
+    </ul>
+</div>
+<div class="content">
+    <div class="layout-unit">
+        <div class="main-unit">
+            <div class="main-wrap">
+                <div class="module">sssssssssssssssssss</div>
+            </div>
+        </div>
+    </div>
+    <div class="layout-unit bs">
+        <div class="main-unit">
+            <div class="main-wrap">
+                <div class="module">sssssssssssssssssss</div>
+                <div class="module">sssssssssssssssssss</div>
+                <div class="module">sssssssssssssssssss</div>
+                <div class="module">sssssssssssssssssss</div>
+                <div class="module">sssssssssssssssssss</div>
+            </div>
+        </div>
+        <div class="sub-wrap">
+            <div class="module">sssssssssssssssssss</div>
+            <div class="module">sssssssssssssssssss</div>
+            <div class="module">sssssssssssssssssss</div>
+            <div class="module">sssssssssssssssssss</div>
+            <div class="module">sssssssssssssssssss</div>
+            <div class="module">sssssssssssssssssss</div>
+            <div class="module">sssssssssssssssssss</div>
+        </div>
+    </div>
+
+    <div class="layout-unit sb">
+        <div class="main-unit">
+            <div class="main-wrap">
+                <div class="module">sssssssssssssssssss</div>
+                <div class="module">sssssssssssssssssss</div>
+                <div class="module">sssssssssssssssssss</div><div class="module">sssssssssssssssssss</div>
+                <div class=" placeholder"></div>
+            </div>
+        </div>
+        <div class="sub-wrap">
+            <div class="module">ss</div>
+            <div class="module">ss</div>
+            <div class="module">ss</div>
+            <div class="module">ss</div>
+            <div class="module">sssssssssssssssssss</div>
+            <div class="module">sssssssssssssssssss</div>
+            <div class="module">sssssssssssssssssss</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
