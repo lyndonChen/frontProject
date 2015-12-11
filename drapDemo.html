@@ -63,18 +63,29 @@
         .placeholder{
             border: 1px dashed #f5e7ce;
             height: 35px;
+            margin-bottom: 5px;
+        }
+
+        .j_empty{
+            background-color: aliceblue;
+            line-height: 35px;
+            margin-bottom: 5px;;
         }
 
 
     </style>
-
+    <link rel="stylesheet" type="text/css" href="assests/jquery-ui-1.11.4/themes/base/theme.css">
+    <link rel="stylesheet" type="text/css" href="assests/jquery-ui-1.11.4/themes/base/jquery-ui.css">
     <script src="assests/jquery-ui-1.11.4/external/jquery/jquery.js"></script>
     <script  src="assests/jquery-ui-1.11.4/jquery-ui.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
             var mouseTop = 0;
+            var mouseLeft= 0;
             var containerTop = null;
+            var containerLeft = null;
             var container  =null;
+            var preCellNum = null;
             $(".list_module").draggable({
                 connectToSortable:".main-wrap",
                 revert:true,
@@ -85,33 +96,74 @@
                     return proxy;
                 },
                 drag:function(ev,ui){
-                    mouseTop = ev.pageX;
+                    mouseTop = ev.pageY;
+                    mouseLeft = ev.pageX;
                     if(containerTop){
-                        var topHegiht = mouseTop-containerTop;
+                        //判断当前元素中是否存在提示新增
+                        if(container.find(".j_empty").size()>0){
+                            container.find(".j_empty").addClass("placeholder");
+                        }else{
+                            var n = (mouseTop-containerTop)/40;
+                            var cellNum = Math.round(n);
+                            if(preCellNum == null || !(parseInt(preCellNum) == parseInt(cellNum))){
+                                $(".placeholder").addClass("old");
+                                if(cellNum>n){
+                                    $(container).find(".j_module").eq(cellNum - 1).after('<div class="placeholder j_module">sssssssssssssssssss</div>');
+                                }else{
+                                    $(container).find(".j_module").eq(cellNum).before('<div class="placeholder j_module">sssssssssssssssssss</div>');
+                                }
+                                $(".old").remove();
+                                var moduleNum = $(container).find(".module").size();
+                                if(cellNum >moduleNum){
+                                    preCellNum = moduleNum;
+                                }else{
+                                    preCellNum = cellNum;
+                                }
 
-                        if(topHegiht<=0){
+                            }
+                        }
+
+                    }
+                },
+                stop:function(){
+                    if(container){
+                        var containerHeight = container.outerHeight();
+                        var containerWidth = container.outerWidth();
+                        if(mouseTop>(containerHeight+containerTop) || mouseTop<(containerTop) || mouseLeft>(containerWidth+containerLeft)||mouseLeft<(containerLeft)){
+                            $(".placeholder").remove();
+                        }else{
+                            if(container.find(".j_empty").size()>0){
+                                container.find(".j_empty").remove();
+                                container.append('<div class="module j_module">dddddddddddddddddddddddddddd</div>');
+                            }else{
+                                $(".placeholder").removeClass("placeholder").addClass("module");
+                            }
 
                         }
-                        var n = topHegiht/40;
                     }
+                    containerTop = null;
+                    preCellNum = null;
 
                 }
+
             });
 
             $('.main-wrap').droppable({
                 over:function(ev,ui){
                     containerTop = $(this).offset().top;
-                    console.log($(this).offset().left);
+                    containerLeft = $(this).offset().left;
                     container = $(this);
-                },
-                out:function(){
-                    containerTop = null;
-                },
-                drop:function(){
-
                 }
             });
+
+
+
         });
+        function addLayout(){
+            $(".dialog").dialog({
+
+            });
+        }
     </script>
 </head>
 <body>
@@ -126,50 +178,66 @@
     <div class="layout-unit">
         <div class="main-unit">
             <div class="main-wrap">
-                <div class="module">sssssssssssssssssss</div>
+                <div class="j_empty">请拖入模块在此</div>
             </div>
         </div>
     </div>
     <div class="layout-unit bs">
         <div class="main-unit">
             <div class="main-wrap">
-                <div class="module">sssssssssssssssssss</div>
-                <div class="module">sssssssssssssssssss</div>
-                <div class="module">sssssssssssssssssss</div>
-                <div class="module">sssssssssssssssssss</div>
-                <div class="module">sssssssssssssssssss</div>
+                <div class="module j_module">sssssssssssssssssss</div>
+                <div class="module j_module">sssssssssssssssssss</div>
+                <div class="module j_module">sssssssssssssssssss</div>
+                <div class="module j_module">sssssssssssssssssss</div>
+                <div class="module j_module">sssssssssssssssssss</div>
+                <div class="module j_module">sssssssssssssssssss</div>
+                <div class="module j_module">sssssssssssssssssss</div>
+                <div class="module j_module">sssssssssssssssssss</div>
+                <div class="module j_module">sssssssssssssssssss</div>
+                <div class="module j_module">sssssssssssssssssss</div>
+
             </div>
         </div>
         <div class="sub-wrap">
-            <div class="module">sssssssssssssssssss</div>
-            <div class="module">sssssssssssssssssss</div>
-            <div class="module">sssssssssssssssssss</div>
-            <div class="module">sssssssssssssssssss</div>
-            <div class="module">sssssssssssssssssss</div>
-            <div class="module">sssssssssssssssssss</div>
-            <div class="module">sssssssssssssssssss</div>
+            <div class="module j_module">sssssssssssssssssss</div>
+            <div class="module j_module">sssssssssssssssssss</div>
+            <div class="module j_module">sssssssssssssssssss</div>
+            <div class="module j_module">sssssssssssssssssss</div>
+            <div class="module j_module">sssssssssssssssssss</div>
+            <div class="module j_module">sssssssssssssssssss</div>
         </div>
     </div>
 
     <div class="layout-unit sb">
         <div class="main-unit">
             <div class="main-wrap">
-                <div class="module">sssssssssssssssssss</div>
-                <div class="module">sssssssssssssssssss</div>
-                <div class="module">sssssssssssssssssss</div><div class="module">sssssssssssssssssss</div>
-                <div class=" placeholder"></div>
+                <div class="module j_module">sssssssssssssssssss</div>
+                <div class="module j_module">sssssssssssssssssss</div>
+                <div class="module j_module">sssssssssssssssssss</div><div class="module">sssssssssssssssssss</div>
             </div>
         </div>
         <div class="sub-wrap">
-            <div class="module">ss</div>
-            <div class="module">ss</div>
-            <div class="module">ss</div>
-            <div class="module">ss</div>
-            <div class="module">sssssssssssssssssss</div>
-            <div class="module">sssssssssssssssssss</div>
-            <div class="module">sssssssssssssssssss</div>
+            <div class="module j_module">ss</div>
+            <div class="module j_module">ss</div>
+            <div class="module j_module">ss</div>
+            <div class="module j_module">ss</div>
+            <div class="module j_module">sssssssssssssssssss</div>
+            <div class="module j_module">sssssssssssssssssss</div>
+            <div class="module j_module">sssssssssssssssssss</div>
         </div>
     </div>
+
+    <div class="layout-unit">
+        <div class="main-unit">
+            <div class="">
+                <div class="module j_module" onclick="addLayout();">添加布局模块</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="dialog">
+    <div><span>190</span><span>750</span></div>
 </div>
 </body>
 </html>
