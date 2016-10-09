@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../static/js/three.js"></script>
+    <script type="text/javascript" src="../static/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+<div id="draw3D"></div>
+<script type="text/javascript">
+
+    init();
+    animate();
+    //场景，相机，渲染器
+    var scense,camera,renderer;
+    var controls;
+    //仓库商品数据
+    var objects = [];
+    //初始化
+    function init() {
+        //创建场景
+        scense = new THREE.Scene();
+        //创建平面
+        var geo = new THREE.PlaneGeometry(20, 10);
+        var floor = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({color :0xcfcfcf}));
+        floor.material.side = THREE.DoubleSide;
+        floor.rotation.x = Math.PI/2;
+        floor.position.y = -2;
+        floor.receiveShadow = true;
+        scense.add(floor);
+
+        geo = new THREE.PlaneGeometry(16,1);
+        var area = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({color :0xA2CD5A}));
+        area.material.side = THREE.DoubleSide;
+        area.rotation.x = Math.PI/2;
+
+        area.position.y = -1.999;
+        area.position.x = -2;
+        area.position.z = -4.5;
+        area.receiveShadow = true;
+        scense.add(area)
+
+        geo = new THREE.PlaneGeometry(16,1);
+        var area1 = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({color :0xA2CD5A}));
+        area1.material.side = THREE.DoubleSide;
+        area1.rotation.x = Math.PI/2;
+
+        area1.position.y = -1.999;
+        area1.position.x = -2;
+        area1.position.z = -3;
+        area1.receiveShadow = true;
+        scense.add(area1)
+
+        geo = new THREE.PlaneGeometry(16,1);
+        var area2 = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({color :0xA2CD5A}));
+        area2.material.side = THREE.DoubleSide;
+        area2.rotation.x = Math.PI/2;
+
+        area2.position.y = -1.999;
+        area2.position.x = -2;
+        area2.position.z = -1.5;
+        area2.receiveShadow = true;
+        scense.add(area2)
+
+
+        //相机
+        camera = new THREE.PerspectiveCamera(44,window.innerWidth/window.innerHeight,1,100);
+        camera.position.z = 20;
+        camera.position.y = 10;
+
+
+        console.log(window.innerHeight)
+
+        //创建渲染器
+        renderer = new THREE.WebGLRenderer({antialias: true});
+        renderer.setSize(window.innerWidth,window.innerHeight);
+        renderer.setClearColor(0xAB82FF, 1);
+        renderer.shadowMapEnabled = true;
+
+
+        controls = new THREE.OrbitControls( camera ,renderer.domElement);
+        controls.addEventListener( 'change', updateControls );
+
+
+        document.getElementById("draw3D").appendChild(renderer.domElement);
+    }
+    //渲染
+    function render() {
+        renderer.render(scense,camera);
+    }
+    //动画
+    function animate() {
+        render();
+        requestAnimationFrame(animate);
+    }
+
+    function reset(scense){
+        scense.children.length=0;
+    }
+
+    function createArea(scense){
+
+    }
+    function updateControls() {
+        /*var y = camera.position.y;
+        if(y<10){
+            camera.position.y=10;
+        }*/
+
+        controls.update();
+    }
+</script>
+</body>
+</html>

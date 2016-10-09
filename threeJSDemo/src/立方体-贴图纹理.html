@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../static/js/three.js"></script>
+    <script type="text/javascript" src="../static/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+<div id="web3DFrame">ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</div>
+<script type="text/javascript">
+    //交互控制器
+    var controls;
+    //场景
+    var scene;
+    //相机
+    var camera;
+    // 渲染器
+    var renderer ;
+    var cube;
+    function init() {
+        scene = new THREE.Scene();
+
+        camera = new THREE.PerspectiveCamera( 60, window.innerWidth/window.innerHeight, 1, 100 );
+
+        renderer = new THREE.WebGLRenderer({antialias: true });
+        renderer.setSize( window.innerWidth, window.innerHeight );
+       // renderer.shadowMapEnabled = true;
+       // renderer.shadowMapType = THREE.PCFShadowMap;
+        document.getElementById("web3DFrame").appendChild( renderer.domElement );
+
+        controls = new THREE.OrbitControls( camera );
+        controls.addEventListener( 'mouseover', updateControls );
+
+    }
+
+    //初始化一个平面 无网格 纯色
+    function initPlane(scene) {
+        //创建一个平面  wireframe 控制是否纯色 无网格显示
+        var plane = new THREE.Mesh( new THREE.PlaneGeometry( 10, 10 ), new THREE.MeshBasicMaterial( {color: 0xFF8C69 } ) );
+        plane.material.side = THREE.DoubleSide;
+        plane.rotation.x = Math.PI/2;
+        plane.position.y = -2.5;
+        plane.receiveShadow = true;
+        scene.add(plane);
+    }
+
+    function initCube() {
+        init();
+        initPlane(scene);
+        //创建一个立方体
+        var geometry = new THREE.CubeGeometry( 3, 3, 3 );
+        var material = [];
+        for(var i=1;i<=6;i++){
+            material.push(new THREE.MeshBasicMaterial( { map:THREE.ImageUtils.loadTexture("../static/images/img-7.png",{},function(){
+                renderer.render(scene,camera);
+            }) ,overdraw:true} ));
+        }
+        var faceMeterial = new THREE.MeshFaceMaterial(material);
+        cube = new THREE.Mesh( geometry, faceMeterial );
+
+        var multi = new THREE.Object3D();
+        multi.add(cube);
+        multi.position.z = 0;
+        scene.add( cube );
+        camera.position.z = 10;
+    }
+
+
+
+
+    var render = function () {
+        requestAnimationFrame( render );
+        console.log(cube.position.x);
+        cube.rotation.x += 0.01;
+        cube.rotation.y += 0.01
+        renderer.render(scene, camera);
+    };
+    initCube();
+    render();
+    function updateControls() {
+        controls.update();
+    }
+
+</script>
+</body>
+</html>

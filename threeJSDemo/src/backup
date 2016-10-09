@@ -1,0 +1,60 @@
+ //创建平面
+        var geo = new THREE.PlaneGeometry(20, 25);
+        var floor = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({color :0xcfcfcf}));
+        floor.material.side = THREE.DoubleSide;
+        floor.rotation.x = Math.PI/2;
+        floor.position.y = -2;
+        floor.receiveShadow = true;
+        scense.add(floor);
+
+        //相机
+        camera = new THREE.PerspectiveCamera(  45, window.innerWidth/window.innerHeight,0.1, 100);
+        camera.position.z = 10;
+        camera.position.y = 1;
+
+        //创建渲染器
+        renderer = new THREE.WebGLRenderer({antialias: true});
+        renderer.setSize(window.innerWidth,window.innerHeight);
+        renderer.setClearColor(0x000000, 1);
+        renderer.shadowMapEnabled = true;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //创建场景
+                scense = new THREE.Scene();
+                //创建平面
+                var geo = new THREE.PlaneGeometry(10, 20);
+                var floor = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({color :0xcfcfcf}));
+                floor.material.side = THREE.DoubleSide;
+                floor.rotation.x = Math.PI/2;
+                floor.position.y = -2;
+                floor.receiveShadow = true;
+                scense.add(floor);
+
+                //相机
+                camera = new THREE.PerspectiveCamera(44,window.innerWidth/window.innerHeight,1,100);
+                camera.position.z = 20;
+                camera.position.y = 10;
+
+
+                console.log(window.innerHeight)
+
+                //创建渲染器
+                renderer = new THREE.WebGLRenderer({antialias: true});
+                renderer.setSize(window.innerWidth,window.innerHeight);
+                renderer.setClearColor(0xAB82FF, 1);
+                renderer.shadowMapEnabled = true;
